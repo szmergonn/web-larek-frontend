@@ -19,6 +19,10 @@ export class ProductDetail extends ProductCard {
         });
     }
 
+    set description(value: string) {
+        this.setText(this._description, value);
+    }
+
     setNotForSale(item: IProductModel): void {
         if (!item.price) {
             this.setButtonText('Недоступно');
@@ -28,5 +32,13 @@ export class ProductDetail extends ProductCard {
 
     setButtonText(value: string): void {
         this.setText(this._button, value);
+    }
+
+    render(data: IProductModel): HTMLElement {
+        super.render(data);
+        if (data.description) {
+            this.description = data.description;
+        }
+        return this.container;
     }
 }

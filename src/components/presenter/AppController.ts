@@ -108,15 +108,18 @@ export class AppController {
             }
             case 'orderFormErrors:change': {
                 const errorData = modelData as Record<string, string>;
-                this.checkoutForm.errors = errorData.address ? [errorData.address] : [];
-                this.checkoutForm.valid = !errorData.address;
+                const addressError = errorData.address;
+                this.checkoutForm.errors = addressError ? [addressError] : [];
+                this.checkoutForm.valid = !addressError;
                 break;
             }
             case 'contactsFormErrors:change': {
                 const errorData = modelData as Record<string, string>;
-                const contactError = errorData.email || errorData.phone;
-                this.contactForm.errors = contactError ? [contactError] : [];
-                this.contactForm.valid = !contactError;
+                const errors = [];
+                if (errorData.email) errors.push(errorData.email);
+                if (errorData.phone) errors.push(errorData.phone);
+                this.contactForm.errors = errors;
+                this.contactForm.valid = errors.length === 0;
                 break;
             }
         }

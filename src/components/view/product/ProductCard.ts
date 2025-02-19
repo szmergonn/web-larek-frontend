@@ -29,7 +29,10 @@ export class ProductCard extends AbstractView<IProductCardData> {
 
     set category(value: string) {
         this.setText(this._category, value);
-        this._category?.classList.add(`card__category_${categories[value] ?? 'other'}`);
+        if (this._category) {
+            const categoryClass = categories[value] ?? 'other';
+            this._category.className = `card__category card__category_${categoryClass}`;
+        }
     }
 
     set image(value: string) {

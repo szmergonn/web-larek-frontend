@@ -3,7 +3,7 @@ import { IApplicationStore,
          IProductModel, 
          IBasketModel, 
          IOrderModel, 
-         IFormErrors , 
+         IFormErrors, 
          IContactFormData, 
          ICheckoutFormData, 
          PaymentMethod } from '../../types';
@@ -97,6 +97,7 @@ export class StoreManager extends AbstractDataModel<IApplicationStore> {
             address: '',
             payment: 'card',
         };
+        this._formErrors = {};
     }
 
     validateOrder(): boolean {
@@ -104,7 +105,7 @@ export class StoreManager extends AbstractDataModel<IApplicationStore> {
         if (!this._order.address) {
             errors.address = 'Необходимо указать адрес';
         }
-        this._formErrors = errors;
+        this._formErrors = {...this._formErrors, ...errors};
         this.notifyUpdate('orderFormErrors:change', this._formErrors);
         return Object.keys(errors).length === 0;
     }
@@ -121,7 +122,7 @@ export class StoreManager extends AbstractDataModel<IApplicationStore> {
         } else if (!PHONE_REGEXP.test(this._order.phone)) {
             errors.phone = 'Неверный формат телефона';
         }
-        this._formErrors = errors;
+        this._formErrors = {...this._formErrors, ...errors};
         this.notifyUpdate('contactsFormErrors:change', this._formErrors);
         return Object.keys(errors).length === 0;
     }
